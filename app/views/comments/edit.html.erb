@@ -1,0 +1,4 @@
+<h1>Edit Comment</h1>
+<%= render 'form', comment: @comment %>
+<br>
+<%= link_to "Back", blog_post_path(@comment.blog_post_id), class: "btn btn-info" %>
