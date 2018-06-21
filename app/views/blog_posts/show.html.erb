@@ -1,29 +1,32 @@
-<div class="panel panel-primary">
-	
-	<div class="panel-heading">
-		<%= @blog_post.title %>
-	</div>
-
+<div class="panel">
 	<div class="panel-body">
-		<p><em><%= link_to @blog_post.user.username, user_posts_path(name: @blog_post.user.username) %></em></p>
+		<h2 style="margin-top: 0;"><%= link_to @blog_post.title, @blog_post %></h2>
+		<p><h4><em><%= link_to @blog_post.user.username, user_posts_path(name: @blog_post.user.username) %></em></h4></p>
 		<p><em>posted on <%= @blog_post.created_at.strftime("%m/%d/%Y at %I:%M%p") %></em></p>
-		<p><%= @blog_post.blog_entry.html_safe %></p>
+		<% if @blog_post.image.url != nil %>
+			<p>
+	                <%= image_tag @blog_post.image.url, class: "blogpost" %>
+	        </p>
+        <% end %>
+		<div class="well" style="background: #f6f6f6 !important; font-size: 1.1em;"><%= @blog_post.blog_entry.html_safe %></div>
 	</div>
-	<% if current_user.id == @blog_post.user_id %>
-		<div class="panel-footer">
-			<%= link_to "Edit", edit_blog_post_path(@blog_post), class: "btn btn-warning" %>
-		</div>
+	<% if current_user != nil %>
+		<% if current_user.id == @blog_post.user_id %>
+			<div class="panel-footer">
+				<%= link_to "Edit", edit_blog_post_path(@blog_post), class: "btn btn-warning" %>
+			</div>
+		<% end %>
 	<% end %>
 </div>
 
-<div class="panel panel-success">
+<!-- <div class="panel panel-success">
 	
 	<div class="panel-heading">
 		Make A Comment
 	</div>
 
 	<div class="panel-body">
-		<%= render 'comments/form' %>
+		 render 'comments/form' %>
 	</div>
 
 </div>
@@ -35,7 +38,7 @@
 	</div>
 
 	<div class="panel-body">
-		<%= render 'comments/comment' %>
+		 render 'comments/comment' %>
 	</div>
 
-</div>
+</div> -->

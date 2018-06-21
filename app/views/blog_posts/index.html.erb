@@ -1,26 +1,33 @@
-<h1>Welcome <%= current_user.username %></h1>
+<% if current_user != nil %>
+<h1 style="padding: 0 15px 15px 15px;">Welcome <%= current_user.username %></h1>
+<% end %>
+
+<div></div>
 
 <div class="row">
 	<% @blog_posts.each do |blog_post| %>
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">
-					<%= link_to blog_post.title, blog_post %>
-				</div>
 				<div class="panel-body">
-					by <em><%= link_to blog_post.user.username, user_posts_path(name: blog_post.user.username) %></em><br>
-					<p><i>Created: <%= blog_post.created_at.strftime("%m/%d/%Y at %I:%M%p") %></i></p>
-					<p><%= blog_post.blog_entry[0..140].html_safe %>
-						<% if  blog_post.blog_entry.length > 140 %>
+					<h2 style="margin-top: 0;"><%= link_to blog_post.title, blog_post %></h2>
+					<p><h4><em><%= link_to blog_post.user.username, user_posts_path(name: blog_post.user.username) %></em></h4></p>
+					<p><em>posted on <%= blog_post.created_at.strftime("%m/%d/%Y at %I:%M%p") %></em></p>
+					<% if blog_post.image.url != nil %>
+						<p>
+				                <%= image_tag blog_post.image.url, class: "blogpost" %>
+				        </p>
+			        <% end %>
+					<div class="well" style="background: #f6f6f6 !important; font-size: 1.1em;"><%= blog_post.blog_entry[0..140].html_safe %><% if  blog_post.blog_entry.length > 140 %>
 							<%= link_to "... Read More", blog_post_path(blog_post) %>
-						<% end %>
-						</p>
+						<% end %></div>
 				</div>
-				<% if current_user.id == blog_post.user_id %>
-				<div class="panel-footer">					
-					<%= link_to "Edit", edit_blog_post_path(blog_post), class: "btn btn-warning" %>
-					<%= link_to "Delete", blog_post_path(blog_post), method: :delete, data: { confirm: "Are you sure you want to delete?"}, class: "btn btn-danger" %>
-				</div>
+				<% if current_user != nil %>
+					<% if current_user.admin == 1 %>
+					<div class="panel-footer">					
+						<%= link_to "Edit", edit_blog_post_path(blog_post), class: "btn btn-warning" %>
+						<%= link_to "Delete", blog_post_path(blog_post), method: :delete, data: { confirm: "Are you sure you want to delete?"}, class: "btn btn-danger" %>
+					</div>
+					<% end %>
 				<% end %>
 			</div>
 		</div>

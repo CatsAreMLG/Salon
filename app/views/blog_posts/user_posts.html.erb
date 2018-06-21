@@ -1,19 +1,28 @@
-<h1>All Posts by <b><%= @user.username %></b></h1>
+
+<h1 style="padding: 15px;">All Posts by <b><%= @user.username %></b></h1>
 <% @user.blog_posts.each do |blog_post| %>
 	<div class="row">
 			<div class="col-md-12">
-				<div class="well">
-						<h3><%= link_to blog_post.title, blog_post %></h3>
+				<div class="panel">
+					<div class="panel-body">
+						<h2 style="margin-top: 0;"><%= link_to blog_post.title, blog_post %></h2>
+						<p><h4><em><%= link_to blog_post.user.username, user_posts_path(name: blog_post.user.username) %></em></h4></p>
 						<p><em>posted on <%= blog_post.created_at.strftime("%m/%d/%Y at %I:%M%p") %></em></p>
-						<p><%= blog_post.blog_entry.html_safe %></p>
-						<p>
-						<%= link_to "Show", blog_post, class: "btn btn-info" %>
-						<% if current_user.id == blog_post.user_id %>
-							 |
-							<%= link_to "Edit", edit_blog_post_path(blog_post), class: "btn btn-warning" %> |
-							<%= link_to "Delete", blog_post_path(blog_post), method: :delete, data: { confirm: "Are you sure you want to delete?"}, class: "btn btn-danger" %>
+						<% if blog_post.image.url != nil %>
+							<p>
+					                <%= image_tag blog_post.image.url, class: "blogpost" %>
+					        </p>
+				        <% end %>
+						<div class="well" style="background: #f6f6f6 !important; font-size: 1.1em;"><%= blog_post.blog_entry.html_safe %></div>
+						<% if current_user != nil %>
+							<% if current_user.id == blog_post.user_id %>
+								 |
+								<%= link_to "Edit", edit_blog_post_path(blog_post), class: "btn btn-warning" %> |
+								<%= link_to "Delete", blog_post_path(blog_post), method: :delete, data: { confirm: "Are you sure you want to delete?"}, class: "btn btn-danger" %>
+							<% end %>
 						<% end %>
 						</p>
+					</div>
 				</div>
 			</div>
 	</div>

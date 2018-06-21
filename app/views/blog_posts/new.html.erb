@@ -1,7 +1,13 @@
-<h1>New Blog Post</h1>
+<% if current_user != nil %>
+	<% if current_user.admin == 1 %>
 
-<%= render 'form' %>
+		<h1>New Blog Post</h1>
 
-<br>
-
-<%= link_to "All Blog Posts", blog_posts_path, class: "btn btn-default" %>
+		<%= render 'form' %>
+	<% end %>
+<% else %>
+  <p class="green">You Are not allowed to view this page.</p>
+  <p>Sign in as an Admin to view this page.</p>
+  <%= link_to "Log in", user_session_path, class: "btn btn-success" %>
+  <%= link_to "All Blog Posts", blog_posts_path, class: "btn btn-default" %>
+<% end %>

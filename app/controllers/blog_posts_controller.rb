@@ -1,5 +1,5 @@
 class BlogPostsController < ApplicationController
-
+	
 	before_action :set_blog_post, only: [:show, :edit, :update, :destroy]
 	include ApplicationHelper
 
@@ -8,11 +8,19 @@ class BlogPostsController < ApplicationController
 	end
 
 	def index
-		@blog_posts = BlogPost.all.page(params[:page])
+		@blog_posts = BlogPost.order("created_at desc").page(params[:page]).limit(5)
 	end
 
 	def show
 		# @comment = Comment.new
+	end
+
+	def about
+		
+	end
+
+	def contact
+		
 	end
 
 	def edit
@@ -60,6 +68,6 @@ class BlogPostsController < ApplicationController
 	end
 
 	def blog_post_params
-		params.require(:blog_post).permit(:title, :blog_entry, :user_id)
+		params.require(:blog_post).permit(:title, :image, :blog_entry, :user_id)
 	end
 end

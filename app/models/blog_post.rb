@@ -3,6 +3,8 @@ class BlogPost < ApplicationRecord
 	has_many :comments, dependent: :destroy
 	belongs_to :user
 
+	mount_uploader :image, ImageUploader
+
 	validates :title, :blog_entry, presence: true
 	validates :title, uniqueness: true, length: { maximum: 140 }
 
